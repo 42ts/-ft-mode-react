@@ -5,7 +5,7 @@ React wrapper of dark/light theme mode manager for web
 ## Usage
 
 ```jsx
-import { ModeContextProvider, ModeContext } from '@-ft/mode';
+import { ModeContextProvider, ModeContext } from '@-ft/mode-react';
 
 const load = () => getCookie('mode') ?? 'system';
 const save = (mode) => setCookie('mode', mode);

@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@-ft/mode-react",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "React wrapper for theme mode manager",
   "types": "./index.d.ts",
   "main": "./index.js",
