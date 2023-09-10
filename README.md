@@ -37,24 +37,11 @@ function ModeBar() {
   return (
     <Bar>
       Current theme mode is {mode}.
-      <Button
-        onClick={useCallback(() => setMode('system'), [setMode])}
-        disabled={mode === 'system'}
+      <Select
+        onChange={useCallback((mode) => setMode(mode), [setMode])}
       >
-        system
-      </Button>
-      <Button
-        onClick={useCallback(() => setMode('dark'), [setMode])}
-        disabled={mode === 'dark'}
-      >
-        dark
-      </Button>
-      <Button
-        onClick={useCallback(() => setMode('light'), [setMode])}
-        disabled={mode === 'light'}
-      >
-        light
-      </Button>
+        {['system', 'light', 'dark']}
+      </Select>
     </Bar>
   )
 }
