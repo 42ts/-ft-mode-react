@@ -84,3 +84,5 @@ export function ModeContextProvider({
     </ModeContext.Provider>
   );
 }
+
+export type { Mode, ModeManager, Theme } from '@-ft/mode';
