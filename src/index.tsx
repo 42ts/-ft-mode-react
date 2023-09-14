@@ -25,7 +25,7 @@ export function ModeContextProvider({
   children,
   variableName,
 }: ModeContextProviderProps) {
-  const modeManager: ModeManager = (window as any)(variableName);
+  const modeManager: ModeManager = (window as any)[variableName];
   const [mode, setMode] = useState(() => modeManager.getMode());
   const [theme, setTheme] = useState(() => modeManager.getTheme());
 
