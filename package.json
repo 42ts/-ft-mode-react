@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@-ft/mode-react",
-  "version": "0.0.7",
+  "version": "0.1.1",
   "description": "React wrapper for theme mode manager",
   "types": "./index.d.ts",
   "main": "./index.js",
@@ -15,12 +15,14 @@
     "url": "https://github.com/42ts/-ft-mode-react.git"
   },
   "license": "MIT",
-  "dependencies": {
-    "@-ft/mode": "^0.0.6",
-    "@-ft/use-persist": "^0.0.1"
-  },
   "peerDependencies": {
+    "@-ft/mode": "^0.1.0",
     "react": "^18.2.0"
+  },
+  "peerDependenciesMeta": {
+    "@-ft/mode": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@rollup/plugin-terser": "^0.4.3",

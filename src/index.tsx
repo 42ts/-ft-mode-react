@@ -1,12 +1,4 @@
-import {
-  Mode,
-  ModeManager,
-  Theme,
-  getCurrentTheme,
-  mode as modeManager,
-  sanitizeMode,
-} from '@-ft/mode';
-import { usePersist } from '@-ft/use-persist';
+import type { Mode, ModeManager, Theme } from '@-ft/mode';
 import {
   PropsWithChildren,
   createContext,
@@ -26,52 +18,26 @@ export const ModeContext = createContext<ModeContextType>(
 );
 
 export interface ModeContextProviderProps extends PropsWithChildren {
-  apply?(theme: Theme): void;
-  cleanup?(): void;
-  load?(): string;
-  save?(mode: Mode): void;
+  variableName: string;
 }
 
 export function ModeContextProvider({
   children,
-  apply,
-  save,
-  load,
-  cleanup,
+  variableName,
 }: ModeContextProviderProps) {
-  const modeManagerPersist = usePersist<ModeManager | undefined>(undefined);
-  const [mode, setMode] = useState(() => sanitizeMode(load?.() ?? 'system'));
-  const [theme, setTheme] = useState(() => getCurrentTheme(mode));
-
-  useEffect(() => {
-    const disposables: (() => void)[] = [];
-
-    modeManagerPersist.current = modeManager(load?.() ?? 'system');
-
-    disposables.push(
-      modeManagerPersist.current.watchTheme((theme) => {
-        apply?.(theme);
-      }),
-      modeManagerPersist.current.watchMode((mode) => {
-        save?.(mode);
-      }),
-      modeManagerPersist.current.watchMode((mode) => setMode(mode)),
-      modeManagerPersist.current.watchTheme((theme) => setTheme(theme)),
-      () => {
-        modeManagerPersist.current = undefined;
-        cleanup?.();
-      }
-    );
-
-    return () => disposables.forEach((disposable) => disposable());
-  });
+  const modeManager: ModeManager = (window as any)(variableName);
+  const [mode, setMode] = useState(() => modeManager.getMode());
+  const [theme, setTheme] = useState(() => modeManager.getTheme());
 
   const setModeExternal = useCallback(
     (mode: Mode) => {
-      if (modeManagerPersist.current) modeManagerPersist.current.mode = mode;
+      if (modeManager) modeManager.setMode(mode);
     },
-    [modeManagerPersist]
+    [modeManager]
   );
+
+  useEffect(() => modeManager.watchMode(setMode), [modeManager, setMode]);
+  useEffect(() => modeManager.watchTheme(setTheme), [modeManager, setTheme]);
 
   return (
     <ModeContext.Provider
